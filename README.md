@@ -4,7 +4,6 @@ First ML project based on classification
 ## Components
 * Front end HTML/JS/CSS UI where users upload image to be identified
 * Backend server which connects to ML model that identifies image and returns to webpage
-*Resize the image so it's the right size for the model
 
 ## Overview of steps (6/6 COMPLETE)
 * Download dataset - DONE
@@ -23,6 +22,7 @@ _Base project completed_
 ## Stretch Goals
 * Add more to dataset
 * Try different models/parameters
+* Resize the image so it's the right size for the model
 
 ## Completed
 * Download dataset (ignored by git)
