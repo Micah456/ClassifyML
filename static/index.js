@@ -14,24 +14,30 @@ let blobToBase64 = function(blob) {
 }
 
 function classify(){
-    console.log("classifying")
-    imageFile = fileSelectorEl.files.item(0)
-    console.log(imageFile)
-    //imageURL = URL.createObjectURL(imageFile)
-    //console.log(imageURL)
-    //imageAsTextPromise = imageFile.text()
-    //.then(imageAsText => console.log(imageAsText))
-    base64_promise = blobToBase64(imageFile)
-    .then(base64 => requestBody['Image'] = base64)
+  console.log("classifying")
+  imageFile = fileSelectorEl.files.item(0)
+  console.log(imageFile)
+  base64_promise = blobToBase64(imageFile)
+  .then(base64 => {
+    requestBody['Image'] = base64
+    console.log(requestBody)
     fetch("http://127.0.0.1:5001/classify", {
         method: "post",
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        //make sure to serialize your JSON body
         body: JSON.stringify(requestBody)
     })
-    .then(resp => console.log(resp.ok))
-    //Complete the code here: make it change page to result and include answer as a query param
+    .then(resp => resp.json())
+    .then(data => {
+      answer = data.answer
+      if(answer){
+        window.location.replace("http://127.0.0.1:5001/result?answer=" + answer)
+      }
+      else{
+        alert(data.message)
+      }
+    })
+  })
 }

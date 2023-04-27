@@ -2,9 +2,13 @@ from flask import Flask, Response, request, render_template, send_file, redirect
 import json, os, requests, base64, re, io, pandas as pd, math, numpy as np
 from imageio import imread
 from dotenv import load_dotenv
+from classify_ML import Classify_Model
 
 load_dotenv()
 DEV_PORT = int(os.getenv("port"))
+MODEL = Classify_Model()
+print("Model Created --------------------------- Initiating Server")
+
 
 def compress_image(image_ndarray):
     pixel_list = []
@@ -39,22 +43,17 @@ def display_result():
 
 @app.route("/classify", methods=["POST"])
 def classify():
-    #link to function that calculates answer and set
-    # that equal to result
     request_body = request.json
     print(request_body)
     image_64 = request_body['Image']
     image_64 = re.findall("base64,(.+)", image_64)[0]
-    #print(image_64)
     #convert image to df_X
     image_df_X = get_image_df_X(image_64)
     print(image_df_X)
     #run image through model
-    #result = predict(image_row)
-
-    result = "0" #TODO To be replaced with the actual result
+    result = MODEL.predict(image_df_X)
     if result:
-        msg_json = json.dumps({"answer" : result})
+        msg_json = json.dumps({"answer" : str(result)})
         return Response(msg_json, mimetype='application/json', status=200)
     else:
         msg_json = json.dumps({"message" : "Error"})

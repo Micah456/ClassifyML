@@ -17,11 +17,15 @@
             </header>
             <h2>Result</h2>
             <p id="answer">{{ context.answer }}</p>
-            <button class="btn btn-primary">Try another number</button>
+            <button onclick=backToHome() class="btn btn-primary">Try another number</button>
         </main>
         <footer>
             <p>Made using <a href="https://www.kaggle.com/datasets/olafkrastovski/handwritten-digits-0-9">this Handwritten Digits dataset</a> from ANDRÉ MEIER</p>
         </footer>
-        <script></script>
+        <script type="text/javascript">
+            function backToHome(){
+                window.location.replace("http://127.0.0.1:5001")
+            }
+        </script>
     </body>
 </html>
